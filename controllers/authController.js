@@ -9,8 +9,8 @@ router.get('/register', isGuest(), (req, res) => {
 
 router.post('/register',
 body('email', 'Email is required!').isEmail().withMessage('Invalid email!').isLength({ min: 10 }).withMessage('Email must be at least 10 characters long!'),
-    body('username', 'Username is required!').isLength({ min: 4 }).withMessage('Username must be at least 4 characters long!'),
-    body('password', 'Password is required!').isLength({ min: 3 }).withMessage('Password must be at least 3 characters long!'),
+    body('descriptionSkills', 'Description of your skills is required!').isLength({ max: 40 }).withMessage('Description must be maximum 40 characters long!'),
+    body('password', 'Password is required!').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long!'),
     body('rePass', 'Repeat password, please!').custom((value, { req }) => {
         if (value !== req.body.password) {
             throw new Error('Passwords don\'t match!')

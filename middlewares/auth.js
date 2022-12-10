@@ -13,8 +13,8 @@ module.exports =()=> (req, res, next)=>{
         //attach functions to context
         if(parseToken(req, res)){
             req.auth = {
-                async register( username, email, password){
-                        const token = await register( username, email, password);
+                async register(email, descriptionSkills, password){
+                        const token = await register(  email, descriptionSkills, password);
                         res.cookie(COOKIE_NAME, token);
                 },
                  async login(email, password){
@@ -36,13 +36,11 @@ module.exports =()=> (req, res, next)=>{
        
 }
 
-async function register(username, email, password){
-    const existingUsername = await userService.getUserByUsername(username);
-    const existingEmail = await userService.getUserByUsername(email);
+async function register(email, descriptionSkills, password){
+    
+    const existingEmail = await userService.getUserByEmail(email);
 
-    if(existingUsername){
-        throw new Error ('Username is taken!')
-    }
+   
     if(existingEmail){
         throw new Error ('Email is taken!')
     }
@@ -51,7 +49,7 @@ async function register(username, email, password){
     //1. we hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
     //i sega go suzdavame
-    const user = await userService.createUser(username, email, hashedPassword);
+    const user = await userService.createUser( email, descriptionSkills, hashedPassword);
 
     return generateToken(user);
 }
@@ -88,7 +86,7 @@ function generateToken(userData){
 return jwt.sign({
     _id: userData._id,
     email: userData.email,
-    username: userData.username,
+    descriptionSkills: userData.descriptionSkills,
   
 }, TOKEN_SECRET)
 }
