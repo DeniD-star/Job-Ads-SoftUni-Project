@@ -65,4 +65,48 @@ router.get('/details/:id', isUser(), async(req, res)=>{
         
     }
 })
+
+router.get('/edit/:id', isUser(), async(req, res)=>{
+    try {
+         
+        const ad = await req.storage.getAdById(req.params.id);
+
+        if(ad.owner != req.user._id){
+            throw new Error ('You cannot edit an ad that you have not create!')
+        }
+
+        res.render('edit')
+
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/ads/catalog')
+    }
+})
+router.post('/edit/:id', isUser(), async(req, res)=>{
+    try {
+         
+        const ad = await req.storage.getAdById(req.params.id);
+
+        if(ad.owner != req.user._id){
+            throw new Error ('You cannot edit an ad that you have not create!')
+        }
+        await req.storage.editAd(req.params.id, req.body)
+        res.redirect('/ads/catalog')
+
+    } catch (err) {
+        console.log(err.message);
+
+        const ctx = {
+            errors: parseError(err),
+            ad: {
+                _id: req.params.id,
+                headline: req.body.headline,
+                location: req.body.location,
+                companyName: req.body.companyName,
+                descriptionCompany: req.body.descriptionCompany,
+            }
+        }
+        res.render('edit', ctx)
+    }
+})
 module.exports = router;

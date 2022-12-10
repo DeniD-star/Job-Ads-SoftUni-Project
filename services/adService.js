@@ -24,9 +24,20 @@ async function getAdUserEmail(id, adAuthorId){
     console.log(email);
     return email;
 }
+
+async function editAd(adId, newId){
+    const ad = await Ad.findById(adId);
+    ad.headline= newId.headline,
+    ad.location =newId.location,
+    ad.companyName = newId.companyName,
+    ad.descriptionCompany= ad.descriptionCompany
+
+    return ad.save()
+}
 module.exports = {
    getAllAds,
    createAd,
    getAdById,
-   getAdUserEmail
+   getAdUserEmail,
+   editAd
 }
