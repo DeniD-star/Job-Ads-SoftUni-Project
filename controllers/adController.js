@@ -47,4 +47,22 @@ router.post('/create', isUser(), async(req, res)=>{
 
    }
 })
+
+
+router.get('/details/:id', isUser(), async(req, res)=>{
+    try {
+
+        const ad = await req.storage.getAdById(req.params.id);
+            const userEmail = await req.storage.getAdUserEmail(req.params.id, ad.author);
+            console.log(userEmail);
+
+        res.render('details', {ad, userEmail})
+        
+    } catch (err) {
+
+        console.log(err.message);
+        res.redirect('/ads/404')
+        
+    }
+})
 module.exports = router;
