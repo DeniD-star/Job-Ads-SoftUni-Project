@@ -5,6 +5,12 @@ async function getAllAds(){
     return ads;
 }
 
+async function createAd(adData){
+    const ad = new Ad(adData);
+    await ad.save()
+    return ad;
+}
 module.exports = {
-   getAllAds
+   getAllAds,
+   createAd
 }

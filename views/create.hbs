@@ -3,20 +3,20 @@
             <section id="create-page">
 
                 <article class="create-page-container">
-                    <form action="#" method="" class="create-page-form">
+                    <form action="/ads/create" method="POST" class="create-page-form">
                         <h2>Create an ad</h2>
 
                         <label for="headline">Headline:</label>
-                        <input type="text" id="headline" placeholder="Front-End Developer with React" name="" value="">
+                        <input type="text" id="headline" placeholder="Front-End Developer with React" name="headline" value="{{adData.headline}}">
 
                         <label for="location">Location:</label>
-                        <input type="text" id="location" placeholder="Ruse, Bulgaria" name="" value="">
+                        <input type="text" id="location" placeholder="Ruse, Bulgaria" name="location" value="{{adData.location}}">
 
                         <label for="company-name">Company name:</label>
-                        <input type="text" id="company-name" placeholder="Digital Solutions" name="" value="">
+                        <input type="text" id="company-name" placeholder="Digital Solutions" name="companyName" value="{{adData.companyName}}">
 
                         <label for="company-description">Company description:</label>
-                        <input type="text" id="company-description" placeholder="We are developing a web application" name="" value="">
+                        <input type="text" id="company-description" placeholder="We are developing a web application" name="descriptionCompany" value="{{adData.descriptionCompany}}">
 
                         <article class="create-page-button">
                             <button class="btn-create">Create</button>
@@ -25,7 +25,7 @@
 
                     <article class="create-page-image">
                         <!-- Do not forget to change the path to the image -->
-                        <img src="./static/img/job.png" alt="image">
+                        <img src="/static/img/job.png" alt="image">
                     </article>
                 </article>
 
