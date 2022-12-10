@@ -11,7 +11,7 @@ async function createAd(adData){
     await ad.save()
     return ad;
 }
-async function getAdById(id, authorId){
+async function getAdById(id){
     const ad = await Ad.findById(id).lean();
     
     return ad;
@@ -34,10 +34,15 @@ async function editAd(adId, newId){
 
     return ad.save()
 }
+
+async function deleteAd(id){
+    return Ad.findByIdAndDelete(id)
+}
 module.exports = {
    getAllAds,
    createAd,
    getAdById,
    getAdUserEmail,
-   editAd
+   editAd,
+   deleteAd
 }
