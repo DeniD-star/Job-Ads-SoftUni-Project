@@ -9,4 +9,4 @@ const schema = new Schema({
     usersApplied: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }]
 })
 
-module.exports = model('Ads', schema);
+module.exports = model('Ad', schema);
