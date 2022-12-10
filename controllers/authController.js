@@ -27,7 +27,7 @@ body('email', 'Email is required!').isEmail().withMessage('Invalid email!').isLe
                 throw new Error(Object.values(errors).map(e=>e.msg).join('\n'))
             }
             console.log(errors);
-            await req.auth.register( req.body.email.trim(), req.body.username.trim(), req.body.password.trim());
+            await req.auth.register( req.body.email.trim(), req.body.descriptionSkills.trim(), req.body.password.trim());
             console.log(req.auth);
             res.redirect('/');
         } catch (err) {
