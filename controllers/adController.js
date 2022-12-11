@@ -51,22 +51,26 @@ router.post('/create', isUser(), async (req, res) => {
 })
 
 
-router.get('/details/:id', isUser(), async (req, res) => {
+router.get('/details/:id', async (req, res) => {
     try {
 
         const ad = await req.storage.getAdById(req.params.id);
         const userEmail = await req.storage.getAdUserEmail(req.params.id, ad.author);
-     
-        const user = await userService.getUserByEmail(req.user.email)
-        ad.hasUser = Boolean(req.user);
-        ad.isOwner = req.user && req.user._id == ad.author;
-        ad.added = req.user && ad.usersApplied.find(x=> x._id == req.user._id)
-         console.log(ad.usersApplied);
-         console.log(req.user._id);
-           console.log(Boolean(ad.added));
-            // console.log(user._id + '        user._id');
-            console.log(ad.added);
+      
+        if(req.user){
+            const user = await userService.getUserByEmail(req.user.email)
+            ad.hasUser = Boolean(req.user);
+            ad.isOwner = req.user && req.user._id == ad.author;
+            ad.added = req.user && ad.usersApplied.find(x=> x._id == req.user._id)
+             console.log(ad.usersApplied);
+             console.log(req.user._id);
+               console.log(Boolean(ad.added));
+                // console.log(user._id + '        user._id');
+                console.log(ad.added);
+               
            
+        }
+       
         res.render('details', { ad, userEmail })
 
     } catch (err) {
@@ -75,6 +79,11 @@ router.get('/details/:id', isUser(), async (req, res) => {
         res.redirect('/ads/404')
 
     }
+})
+
+
+router.get('/404', (req, res)=>{
+    res.render('404')
 })
 
 router.get('/edit/:id', isUser(), async (req, res) => {
