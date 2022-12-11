@@ -27,7 +27,7 @@
             <!--logged in user who did not apply for current ad-->
 
             <!--logged in user who has already applied for current ad-->
-            {{#if add.added}}
+            {{#if ad.added}}
               <p class="already-applied">You have already applied!</p>
             {{else}}
               <a href="/ads/apply/{{ad._id}}" class="btn-apply">Apply now!</a>

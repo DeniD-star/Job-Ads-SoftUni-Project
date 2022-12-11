@@ -56,14 +56,17 @@ router.get('/details/:id', isUser(), async (req, res) => {
 
         const ad = await req.storage.getAdById(req.params.id);
         const userEmail = await req.storage.getAdUserEmail(req.params.id, ad.author);
-        console.log(userEmail);
+     
         const user = await userService.getUserByEmail(req.user.email)
         ad.hasUser = Boolean(req.user);
         ad.isOwner = req.user && req.user._id == ad.author;
-        ad.added = req.user && user.myAds.includes(ad._id)
-console.log(ad.isOwner);
-console.log(ad.owner);
-console.log(req.user._id);
+        ad.added = req.user && ad.usersApplied.find(x=> x._id == req.user._id)
+         console.log(ad.usersApplied);
+         console.log(req.user._id);
+           console.log(Boolean(ad.added));
+            // console.log(user._id + '        user._id');
+            console.log(ad.added);
+           
         res.render('details', { ad, userEmail })
 
     } catch (err) {
@@ -131,6 +134,24 @@ router.get('/delete/:id', isUser(), async(req, res)=>{
         res.redirect('/ads/catalog')
     } catch (err) {
         res.redirect('/ad/details' + req.params.id)
+    }
+})
+
+
+router.get('/apply/:id', isUser(), async(req, res)=>{
+    try {
+
+        const ad = await req.storage.getAdById(req.params.id);
+
+        if(ad.author == req.user._id){
+            throw new Error ('Cannot apply your own ad!')
+        }
+    await req.storage.applyAd(req.params.id, req.user._id);
+        res.redirect('/ads/details/' + req.params.id);
+        
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/ads/details/' + req.params.id)
     }
 })
 module.exports = router;

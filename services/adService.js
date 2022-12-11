@@ -12,9 +12,8 @@ async function createAd(adData){
     return ad;
 }
 async function getAdById(id){
-    const ad = await Ad.findById(id).lean();
-    
-    return ad;
+    return Ad.findById(id).lean();
+
 }
 
 async function getAdUserEmail(id, adAuthorId){
@@ -38,11 +37,20 @@ async function editAd(adId, newId){
 async function deleteAd(id){
     return Ad.findByIdAndDelete(id)
 }
+
+async function applyAd(adId, userId){
+    const ad = await Ad.findById(adId).populate('usersApplied');
+    const user = await User.findById(userId)
+    ad.usersApplied.push(userId);
+   
+    return ad.save()
+}
 module.exports = {
    getAllAds,
    createAd,
    getAdById,
    getAdUserEmail,
    editAd,
-   deleteAd
+   deleteAd,
+   applyAd
 }
