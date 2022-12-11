@@ -21,7 +21,9 @@ router.post('/create', isUser(), async (req, res) => {
             companyName: req.body.companyName.trim(),
             descriptionCompany: req.body.descriptionCompany.trim(),
             author: req.user._id,
-            usersApplied: []
+            usersApplied: [],
+            usersEmail: [],
+            usersSkills: []
         }
 
         await req.storage.createAd(adData)
@@ -61,13 +63,14 @@ router.get('/details/:id', async (req, res) => {
             const user = await userService.getUserByEmail(req.user.email)
             ad.hasUser = Boolean(req.user);
             ad.isOwner = req.user && req.user._id == ad.author;
-            ad.added = req.user && ad.usersApplied.find(x=> x._id == req.user._id)
-             console.log(ad.usersApplied);
-             console.log(req.user._id);
-               console.log(Boolean(ad.added));
-                // console.log(user._id + '        user._id');
-                console.log(ad.added);
-               
+            ad.added = req.user && ad.usersApplied.find(x => x._id == req.user._id)
+      
+        //  ad.usersEmail= ad.usersEmail.join(', ')
+        console.log(ad.usersEmail);
+        console.log(ad.usersSkills);
+
+
+
            
         }
        
@@ -162,5 +165,15 @@ router.get('/apply/:id', isUser(), async(req, res)=>{
         console.log(err.message);
         res.redirect('/ads/details/' + req.params.id)
     }
+})
+
+router.get('/search', async(req, res)=>{
+    res.render('search')
+})
+
+router.post('/search', async(req, res)=>{
+    
+    const ads = await req.storage.getAllAds( );
+    
 })
 module.exports = router;

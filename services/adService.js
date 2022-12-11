@@ -1,9 +1,19 @@
 const Ad = require('../models/Ad');
 const User = require('../models/User');
 
-async function getAllAds(){
-    const ads = await Ad.find({}).lean();
-    return ads;
+async function getAllAds(search){
+    // const ads = await Ad.find({}).lean();
+    // return ads;
+        if (search) {
+        return Ad
+            .find({ author: { $regex: search, $options: 'i' } })
+           
+            .lean();
+    }
+
+   
+
+     return Ad.find({}).lean();
 }
 
 async function createAd(adData){
@@ -39,10 +49,17 @@ async function deleteAd(id){
 }
 
 async function applyAd(adId, userId){
-    const ad = await Ad.findById(adId).populate('usersApplied');
-    const user = await User.findById(userId)
-    ad.usersApplied.push(userId);
-   
+    const ad = await Ad.findById(adId).populate('usersApplied').populate('usersEmail').populate('usersSkills');
+    const user = await User.findById(userId).lean()
+    
+    ad.usersApplied.push(user);
+  console.log(user.email + '      user');
+    console.log(ad.usersApplied   + '  service');
+    ad.usersEmail.push((user.email))
+    console.log(ad.usersEmail + ' ad.usersEmail');
+    console.log(ad.usersEmail.map(x=>x.email));
+    ad.usersSkills.push(user.descriptionSkills)
+    console.log(ad.usersSkills + ' ad.usersSkills');
     return ad.save()
 }
 

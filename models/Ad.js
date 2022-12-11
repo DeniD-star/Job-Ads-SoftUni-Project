@@ -6,7 +6,9 @@ const schema = new Schema({
     companyName: { type: String, required: [true, 'Name of company is required'], minLength: [3, 'Company name has to be at least 3 characters long!'] },
     descriptionCompany: { type: String, required: [true, 'Description is required'], maxLength: [40, 'Description cannot be more than 40 characters long!'] },
     author: { type: Schema.Types.ObjectId, ref: 'User' },
-    usersApplied: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }]
+    usersApplied: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+    usersEmail: [{type:Schema.Types.ObjectId, ref: 'User', default: []}],
+    usersSkills: [{type:Schema.Types.ObjectId, ref: 'User', default: []}]
 })
 
 module.exports = model('Ad', schema);
