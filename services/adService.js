@@ -45,6 +45,13 @@ async function applyAd(adId, userId){
    
     return ad.save()
 }
+
+async function getTopAds(size) {
+    return Ad
+    .find({})
+    .limit(size)
+    .lean();
+}
 module.exports = {
    getAllAds,
    createAd,
@@ -52,5 +59,6 @@ module.exports = {
    getAdUserEmail,
    editAd,
    deleteAd,
-   applyAd
+   applyAd,
+   getTopAds
 }
